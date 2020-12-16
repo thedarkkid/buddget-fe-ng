@@ -4,13 +4,59 @@
       <a class="nav-link" data-toggle="collapse" href="#collapse{{budget.id}}" data-target="#collapse{{budget.id}}" aria-expanded="true" attr.aria-controls="collapse{{budget.id}}">
         {{ budget.title | uppercase }}
       </a>
-      <button type="button" class="btn btn-sm btn-outline-danger">Delete Budget</button>
+      <button (click)="removeBudget(budget)" type="button" class="btn btn-sm btn-outline-danger">Delete Budget</button>
     </h5>
   </div>
-  <div id="collapse{{budget.id}}" class="collapse" attr.aria-labelledby="heading{{budget.id}}">
+  <div id="collapse{{budget.id}}" class="collapse"  attr.aria-labelledby="heading{{budget.id}}">
     <div class="card-body">
-      <app-expenditure-item *ngFor="let expenditure of budget.expenditures" [expenditure]="expenditure"></app-expenditure-item>
-      <button type="button" class="btn btn-sm btn-outline-primary">Add Expenditure</button>
+      <app-expenditure-item *ngFor="let expenditure of budget.expenditures" [expenditure]="expenditure" (removeExpenditureEvent)="removeExpenditureFromBudget($event)" ></app-expenditure-item>
+      <div id="newExpenditureForm" class="collapse row mb-5">
+        <div class="col-12">
+          <form class="form-inline" (ngSubmit)="addExpenditureToBudget()"  >
+            <div class="row mb-3">
+              <div class="col-6">
+                <div class="form-group">
+                  <label for="titleInput{{budget.id}}">Title</label>
+                  <input type="text" class="form-control" name="title" [(ngModel)]="title" id="titleInput{{budget.id}}" aria-describedby="title" placeholder="Enter Title">
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="form-group">
+                  <label for="amountInput{{budget.id}}">Amount</label>
+                  <input type="number" class="form-control" name="amount" [(ngModel)]="amount" id="amountInput{{budget.id}}" aria-describedby="amount" placeholder="Enter amount">
+                </div>
+              </div>
+
+            </div>
+            <div class="row mb-3">
+              <div class="col-6">
+                <div class="form-group">
+                  <label for="descriptionInput{{budget.id}}">Description</label>
+                  <textarea class="form-control" name="description" [(ngModel)]="description" id="descriptionInput{{budget.id}}" rows="3"></textarea>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="form-group">
+                  <label for="currencyInput{{budget.id}}">Currency</label>
+                  <input type="text" class="form-control" name="currency" [(ngModel)]="currency" id="currencyInput{{budget.id}}" disabled>
+                </div>
+              </div>
+            </div>
+            <button type="submit" data-toggle="collapse" data-target="#newExpenditureForm" class="btn btn-outline-secondary btn-sm">Add</button>
+          </form>
+        </div>
+      </div>
+
+      <div class="card-footing space-between">
+        <div class="summary">
+          <p class="font-weight-bold">Allocation: {{budget.allocation.amount}} {{budget.allocation.currency}}</p>
+          <p class="font-weight-bolder">Spent: </p>
+          <p class="font-weight-bolder">Remaining: </p>
+        </div>
+        <span>
+          <button type="button" data-toggle="collapse" data-target="#newExpenditureForm" class="btn btn-sm btn-outline-primary">Add Expenditure</button>
+        </span>
+      </div>
     </div>
   </div>
 </div>

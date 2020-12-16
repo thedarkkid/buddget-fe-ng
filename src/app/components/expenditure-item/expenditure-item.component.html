@@ -4,7 +4,7 @@
       <span>
         {{ expenditure.title | titlecase }}
       </span>
-      <button class="btn btn-danger btn-sm">Delete Expenditure</button>
+      <button (click)="removeExpenditure(expenditure)" class="btn btn-danger btn-sm">Delete Expenditure</button>
     </li>
     <li class="space-between">
       <span class="small">{{ expenditure.description }}</span>

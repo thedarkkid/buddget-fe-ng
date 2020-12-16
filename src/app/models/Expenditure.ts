@@ -1,5 +1,5 @@
 export default interface Expenditure {
-  id: number;
+  id: any;
   title: string;
   price: number;
   currency: string;

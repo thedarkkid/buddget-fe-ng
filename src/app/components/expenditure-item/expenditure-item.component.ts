@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import {Component, OnInit, Input, EventEmitter, Output} from '@angular/core';
 import Expenditure from 'src/app/models/Expenditure';
 
 @Component({
@@ -8,6 +8,7 @@ import Expenditure from 'src/app/models/Expenditure';
 })
 export class ExpenditureItemComponent implements OnInit {
 
+  @Output() removeExpenditureEvent: EventEmitter<Expenditure> = new EventEmitter<Expenditure>();
   @Input() expenditure!: Expenditure;
 
   constructor() { }
@@ -15,4 +16,7 @@ export class ExpenditureItemComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  removeExpenditure(expenditure: Expenditure): void{
+    this.removeExpenditureEvent.emit(expenditure);
+  }
 }

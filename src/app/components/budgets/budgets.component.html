@@ -7,7 +7,7 @@
           <h2 class="text-uppercase">Budgets</h2>
           <button type="button" class="btn btn-sm btn-outline-primary">Add Budget</button>
         </div>
-        <app-budget-item *ngFor="let budget of budgets" [budget]="budget">
+        <app-budget-item *ngFor="let budget of budgets" [budget]="budget" (removeBudgetEvent)="removeBudget($event)" >
         </app-budget-item>
       </div>
     </div>
