@@ -10,7 +10,7 @@
   <div id="collapse{{budget.id}}" class="collapse"  attr.aria-labelledby="heading{{budget.id}}">
     <div class="card-body">
       <app-expenditure-item *ngFor="let expenditure of budget.expenditures" [expenditure]="expenditure" (removeExpenditureEvent)="removeExpenditureFromBudget($event)" ></app-expenditure-item>
-      <div id="newExpenditureForm" class="collapse row mb-5">
+      <div id="newExpenditureForm{{budget.id}}" class="collapse row mb-5">
         <div class="col-12">
           <form class="form-inline" (ngSubmit)="addExpenditureToBudget()"  >
             <div class="row mb-3">
@@ -42,7 +42,13 @@
                 </div>
               </div>
             </div>
-            <button type="submit" data-toggle="collapse" data-target="#newExpenditureForm" class="btn btn-outline-secondary btn-sm">Add</button>
+            <div *ngIf="formAlert.visible" class="alert alert-{{formAlert.status}} alert-dismissible fade show" role="alert">
+              {{formAlert.info}}
+              <button type="button" class="close" (click)="clearAlert()" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <button type="submit" class="btn btn-outline-secondary btn-sm">Add</button>
           </form>
         </div>
       </div>
@@ -50,11 +56,11 @@
       <div class="card-footing space-between">
         <div class="summary">
           <p class="font-weight-bold">Allocation: {{budget.allocation.amount}} {{budget.allocation.currency}}</p>
-          <p class="font-weight-bolder">Spent: </p>
-          <p class="font-weight-bolder">Remaining: </p>
+          <p class="font-weight-bolder">Spent: {{getSpent()}} {{budget.allocation.currency}}</p>
+          <p class="font-weight-bolder">Remaining: {{budget.allocation.amount - getSpent()}} {{budget.allocation.currency}} </p>
         </div>
         <span>
-          <button type="button" data-toggle="collapse" data-target="#newExpenditureForm" class="btn btn-sm btn-outline-primary">Add Expenditure</button>
+          <button type="button" data-toggle="collapse" attr.data-target="#newExpenditureForm{{budget.id}}" class="btn btn-sm btn-outline-primary">Add Expenditure</button>
         </span>
       </div>
     </div>

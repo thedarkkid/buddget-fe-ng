@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import Budget from 'src/app/models/Budget';
 import {BudgetService} from '../../services/budget.service';
 import Expenditure from '../../models/Expenditure';
+import { v4 as uuidv4 } from 'uuid';
+import {$} from 'protractor';
 
 @Component({
   selector: 'app-budgets',
@@ -10,6 +12,21 @@ import Expenditure from '../../models/Expenditure';
 })
 export class BudgetsComponent implements OnInit {
   budgets: Budget[] = [];
+
+  count = 3;
+  defaultBudget: Budget = {
+    id: ++this.count,
+    userId: 1,
+    title: '',
+    allocation: {
+      amount: 0,
+      currency: 'USD'
+    },
+    expenditures: []
+  };
+  newBudget: Budget = Object.assign(this.defaultBudget);
+  alert = '';
+  showSpinner = false;
 
   constructor(private budgetService: BudgetService) { }
 
@@ -25,4 +42,31 @@ export class BudgetsComponent implements OnInit {
     } );
   }
 
+  addBudget(): void{
+    this.showSpinner = true;
+    this.alert = '';
+    this.budgetService.create(this.newBudget).subscribe( returnedBudget => {
+      this.budgets.push(returnedBudget);
+      this.alert = 'New Budget Added Successfully.';
+    });
+    this.showSpinner = false;
+  }
+
+  resetForm(): void{
+    this.newBudget = {
+      id: ++this.count,
+      userId: 1,
+      title: '',
+      allocation: {
+        amount: 0,
+        currency: 'USD'
+      },
+      expenditures: []
+    };
+    this.clearAlert();
+  }
+
+  clearAlert(): void{
+    this.alert = '';
+  }
 }

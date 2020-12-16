@@ -19,6 +19,11 @@ export class BudgetItemComponent implements OnInit {
   currency = 'USD';
   description!: string;
 
+  formAlert = {
+    visible: false,
+    status: '',
+    info: ''
+  };
 
   constructor(private budgetService: BudgetService) { }
 
@@ -26,6 +31,14 @@ export class BudgetItemComponent implements OnInit {
   }
 
   addExpenditureToBudget(): void{
+    this.clearAlert();
+    const remainingFunds = this.budget.allocation.amount - this.getSpent();
+
+    if ((remainingFunds - this.amount) < 0){
+      this.alert(`Amount too much to add to budget. Maximum addable amount  is ${remainingFunds}`, 'danger');
+      return;
+    }
+
     const newExpenditure: Expenditure = {
       id: uuidv4(),
       title: this.title,
@@ -33,11 +46,13 @@ export class BudgetItemComponent implements OnInit {
       currency: this.currency,
       description: this.description
     };
+
     const newBudget = this.budget;
     newBudget.expenditures.push(newExpenditure);
     this.budgetService.update(newBudget).subscribe( returnedBudget => {
       this.budget = returnedBudget;
       this.clearForm();
+      this.clearAlert();
     });
   }
 
@@ -59,5 +74,28 @@ export class BudgetItemComponent implements OnInit {
     this.amount = 0;
     this.currency = 'USD';
     this.description = '';
+  }
+
+  getSpent(): number{
+    let total = 0;
+    if (!this.budget) { return  0; }
+    for (const expenditure of this.budget.expenditures){
+      total += expenditure.price;
+    }
+    return total;
+  }
+
+  clearAlert(): void {
+    this.formAlert = {
+      visible: false,
+      status: '',
+      info: ''
+    };
+  }
+
+  alert(message: string, status: string): void {
+    this.formAlert.status = status;
+    this.formAlert.info = message;
+    this.formAlert.visible = true;
   }
 }

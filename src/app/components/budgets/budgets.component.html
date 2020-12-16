@@ -5,12 +5,53 @@
       <div id="accordion">
         <div class="heading space-between mb-4">
           <h2 class="text-uppercase">Budgets</h2>
-          <button type="button" class="btn btn-sm btn-outline-primary">Add Budget</button>
+          <button type="button" class="btn btn-sm btn-outline-primary" data-toggle="modal" data-target="#addBudgetModal">Add Budget</button>
         </div>
         <app-budget-item *ngFor="let budget of budgets" [budget]="budget" (removeBudgetEvent)="removeBudget($event)" >
         </app-budget-item>
       </div>
     </div>
     <div class="col-3"></div>
+  </div>
+  <div class="modal fade" id="addBudgetModal" tabindex="-1" role="dialog" aria-labelledby="addBudgetModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addBudgetModalLabel">New Budget</h5>
+          <button type="button" class="close" data-dismiss="modal" (click)="resetForm()"  aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form (ngSubmit)="addBudget()">
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="budgetTitleInput">Title</label>
+              <input type="text" class="form-control" id="budgetTitleInput" name="title" [(ngModel)]="newBudget.title" aria-describedby="budgetTitleInput" placeholder="Enter title" />
+            </div>
+            <div class="form-group">
+              <label for="budgetAllocationInput">Allocation</label>
+              <input type="number" class="form-control" id="budgetAllocationInput"  name="allocation.amount" [(ngModel)]="newBudget.allocation.amount" placeholder="Enter allocation" />
+            </div>
+            <div class="form-group">
+              <label for="budgetCurrencyInput">Currency</label>
+              <input type="text" class="form-control" id="budgetCurrencyInput" name="allocation.currency" [(ngModel)]="newBudget.allocation.currency" disabled />
+            </div>
+            <div *ngIf="showSpinner" class="spinner-border text-primary" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+            <div *ngIf="alert" class="alert alert-success alert-dismissible fade show" role="alert">
+              {{alert}}
+              <button type="button" class="close" (click)="clearAlert()" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="resetForm()" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary" >Add</button>
+          </div>
+        </form>
+      </div>
+    </div>
   </div>
 </section>

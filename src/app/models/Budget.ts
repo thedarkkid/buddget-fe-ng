@@ -5,10 +5,10 @@ export interface Allocation {
   currency: string;
 }
 
-export default interface Budget{
-  id: number;
-  title: string;
-  userId: number;
-  allocation: Allocation;
-  expenditures: Expenditure[];
+export default class Budget{
+  id!: any;
+  title!: string;
+  userId!: number;
+  allocation!: Allocation;
+  expenditures!: Expenditure[];
 }
