@@ -1,0 +1,17 @@
+<div class="card mb-3">
+  <div class="card-header" id="heading{{budget.id}}">
+    <h5 class="mb-0 space-between">
+      <a class="nav-link" data-toggle="collapse" href="#collapse{{budget.id}}" data-target="#collapse{{budget.id}}" aria-expanded="true" attr.aria-controls="collapse{{budget.id}}">
+        {{ budget.title | uppercase }}
+      </a>
+      <button type="button" class="btn btn-sm btn-outline-danger">Delete Budget</button>
+    </h5>
+  </div>
+  <div id="collapse{{budget.id}}" class="collapse" attr.aria-labelledby="heading{{budget.id}}">
+    <div class="card-body">
+      <app-expenditure-item *ngFor="let expenditure of budget.expenditures" [expenditure]="expenditure"></app-expenditure-item>
+      <button type="button" class="btn btn-sm btn-outline-primary">Add Expenditure</button>
+    </div>
+  </div>
+</div>
+

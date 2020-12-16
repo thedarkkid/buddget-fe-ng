@@ -1,0 +1,17 @@
+<div class="expediture-item-wrapper mb-5">
+  <ul class="expenditure">
+    <li class="space-between">
+      <span>
+        {{ expenditure.title | titlecase }}
+      </span>
+      <button class="btn btn-danger btn-sm">Delete Expenditure</button>
+    </li>
+    <li class="space-between">
+      <span class="small">{{ expenditure.description }}</span>
+    </li>
+    <li class="small">
+      <span class="bold">{{ expenditure.price }}</span>
+      <span> {{ expenditure.currency }} </span>
+    </li>
+  </ul>
+</div>

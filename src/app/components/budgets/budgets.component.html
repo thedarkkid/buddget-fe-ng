@@ -1,0 +1,16 @@
+<section class="container">
+  <div class="row">
+    <div class="col-3"></div>
+    <div class="budgets col mt-5">
+      <div id="accordion">
+        <div class="heading space-between mb-4">
+          <h2 class="text-uppercase">Budgets</h2>
+          <button type="button" class="btn btn-sm btn-outline-primary">Add Budget</button>
+        </div>
+        <app-budget-item *ngFor="let budget of budgets" [budget]="budget">
+        </app-budget-item>
+      </div>
+    </div>
+    <div class="col-3"></div>
+  </div>
+</section>
